@@ -6,14 +6,14 @@ metadata:
 data:
   tenant-prod.yaml: |
     tenant:
-      name: minio1
+      name: minio-tenant
       namespace: minio-prod
       pools:
         - name: pool-0
           servers: 4
           volumesPerServer: 2
           size: 2Ti
-          storageClassName: gp3
+          storageClassName: default
           affinity:
             podAntiAffinity:
               preferredDuringSchedulingIgnoredDuringExecution:
@@ -23,15 +23,10 @@ data:
                       matchExpressions:
                         - key: v1.min.io/tenant
                           operator: In
-                          values: ["minio1"]
+                          values: ["minio-tenant"]
                     topologyKey: kubernetes.io/hostname
       certificate:
-        requestAutoCert: false
-        externalCertSecret:
-          - name: minio-tls-api
-            type: cert-manager.io/v1
-          - name: minio-tls-console
-            type: cert-manager.io/v1
+        requestAutoCert: true
       configuration:
         name: minio-tenant-env
       configSecret:
