@@ -1,3 +1,3 @@
 #!/bin/bash
 
-flux bootstrap github --owner=nuamx --repository=$repository_xac --branch=production --token-auth --path=/env/production
+flux bootstrap github --owner=jorgeb2NV --repository=Pruebas_nuam --branch=main --token-auth --path=/env/production

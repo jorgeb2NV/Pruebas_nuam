@@ -1,5 +1,5 @@
 tenant:
-  name: minio1
+  name: minio-tenant  # Unificado con HelmRelease
   namespace: minio-prod
 
   pools:
