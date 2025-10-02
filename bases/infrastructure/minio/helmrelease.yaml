@@ -1,0 +1,46 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: minio-tenant
+  namespace: minio-tenant-ns
+spec:
+  releaseName: minio-tenant
+  interval: 5m
+  chart:
+    spec:
+      chart: tenant
+      version: 5.0.8 # revisa qué versión está disponible en https://operator.min.io
+      sourceRef:
+        kind: HelmRepository
+        name: minio
+        namespace: flux-system
+  install:
+    remediation:
+      retries: -1
+    timeout: 90m0s
+  values:
+    tenant:
+      name: minio-tenant
+      pools:
+        - servers: 1
+          name: pool-0
+          volumesPerServer: 4
+          size: 10Gi
+          storageClassName: gp2
+          resources:
+            requests:
+              cpu: "10m"
+              memory: "1024Mi"
+            limits:
+              cpu: "250m"
+              memory: "3072Mi"
+      credsSecret:
+        name: minio-creds-secret
+      exposeServices:
+        minio: true
+        console: true
+      metrics:
+        enabled: true
+    networkPolicy:
+      enabled: false
+ 

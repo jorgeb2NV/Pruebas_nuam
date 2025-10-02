@@ -1,0 +1,9 @@
+# Secret with key-value pairs
+apiVersion: v1
+kind: Secret
+metadata:
+  name: vault-token
+  namespace: external-secrets
+type: Opaque
+data:
+  token: $TOKEN_B64
