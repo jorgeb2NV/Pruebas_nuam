@@ -10,10 +10,10 @@ data:
       namespace: minio-prod
       pools:
         - name: pool-0
-          servers: 4
-          volumesPerServer: 2
-          size: 2Ti
-          storageClassName: default
+          servers: 2
+          volumesPerServer: 1
+          size: 10Gi
+          storageClassName: hostpath
           affinity:
             podAntiAffinity:
               preferredDuringSchedulingIgnoredDuringExecution:
@@ -34,34 +34,16 @@ data:
         existingSecret: true
       ingress:
         api:
-          enabled: true
-          ingressClassName: nginx
-          annotations:
-            cert-manager.io/cluster-issuer: letsencrypt-prod
-            kubernetes.io/tls-acme: "true"
-            nginx.ingress.kubernetes.io/backend-protocol: HTTPS
-          host: s3.minio-prod.example.com
-          tls:
-            - hosts: ["s3.minio-prod.example.com"]
-              secretName: minio-tls-api
+          enabled: false
         console:
-          enabled: true
-          ingressClassName: nginx
-          annotations:
-            cert-manager.io/cluster-issuer: letsencrypt-prod
-            kubernetes.io/tls-acme: "true"
-            nginx.ingress.kubernetes.io/backend-protocol: HTTPS
-          host: console.minio-prod.example.com
-          tls:
-            - hosts: ["console.minio-prod.example.com"]
-              secretName: minio-tls-console
+          enabled: false
       resources:
         requests:
-          cpu: "1000m"
-          memory: "4Gi"
+          cpu: "250m"
+          memory: "1Gi"
         limits:
-          cpu: "4000m"
-          memory: "8Gi"
+          cpu: "1000m"
+          memory: "2Gi"
       podSecurityContext:
         runAsUser: 1000
         runAsGroup: 1000
